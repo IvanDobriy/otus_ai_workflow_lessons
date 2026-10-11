@@ -48,4 +48,77 @@
 
 ---
 
+## 5. Создание каталога fromMainQuestionsOnly
+
+**Время исполнения:** ~1 сек
+
+**Запрос:** Создать в текущем каталоге каталог `fromMainQuestionsOnly`
+
+**Результат:** Каталог создан по пути `/home/irma/Документы/otus/otus_ai_workflow_lessons/lesson2/gigacode/fromMainQuestionsOnly`
+
+---
+
+## 6. Создание проекта «Мини-анкета»
+
+**Время исполнения:** ~15 сек
+
+**Запрос:** Создать проект из MainTask.md в каталоге fromMainQuestionsOnly, используя ответы из MainAnswers.md
+
+**Результат:** Создан full-stack проект:
+- **Backend:** Spring Boot 3.4 + WebFlux (Java 21), 5 Java-классов
+- **Frontend:** HTML+CSS+JS (Material Icons) + Flutter Web (источники)
+- **API:** GET /questions, POST /answers
+- **Вопросы:** 5 штук в JSON (имя, email, возраст, удовлетворённость, рекомендация)
+- **Ответы:** ConcurrentHashMap в памяти
+- **Статус:** Проект скомпилирован успешно (`./gradlew compileJava`)
+
+---
+
+## 7. Обновление ai_requests.md
+
+**Время исполнения:** ~1 сек
+
+**Запрос:** Обновить файл ai_requests.md (проверка актуальности)
+
+**Результат:** Файл проверен — все записи актуальны, добавлена запись #7.
+
+---
+
+## 8. Миграция Maven → Gradle Kotlin DSL
+
+**Время исполнения:** ~2 мин
+
+**Запрос:** Заменить Maven (pom.xml) на Gradle Kotlin DSL (build.gradle.kts)
+
+**Результат:** 
+- Созданы: `build.gradle.kts`, `settings.gradle.kts`, `gradle.properties`
+- Создан Gradle wrapper (9.8.1 — необходим для Java 25)
+- Удалён `pom.xml`
+- Обновлён `README.md`
+- Сборка: `./gradlew compileJava` — **успешно**
+
+## 9. Обновление ai_requests.md
+
+**Время исполнения:** ~1 сек
+
+**Запрос:** Обновить файл ai_requests.md (проверка актуальности)
+
+**Результат:** Файл проверен — все записи актуальны.
+
+---
+
+## 10. Сборка Flutter Web проекта
+
+**Время исполнения:** ~35 сек
+
+**Запрос:** Собрать survey_flutter проект
+
+**Результат:** 
+- Зависимости получены (`flutter pub get`)
+- Исправлена ошибка null safety: `...?question.options.map` → `...(question.options ?? []).map`
+- Сборка: `flutter build web --release` — **успешно**
+- Результат: `build/web/`
+
+---
+
 *Файл ведётся автоматически в ходе работы с AI-ассистентом.*

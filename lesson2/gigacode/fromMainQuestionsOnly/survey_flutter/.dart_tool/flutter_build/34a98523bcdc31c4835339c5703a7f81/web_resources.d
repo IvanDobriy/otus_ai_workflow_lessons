@@ -1,0 +1,1 @@
+:  /home/irma/Документы/otus/otus_ai_workflow_lessons/lesson2/gigacode/fromMainQuestionsOnly/survey_flutter/web/index.html
