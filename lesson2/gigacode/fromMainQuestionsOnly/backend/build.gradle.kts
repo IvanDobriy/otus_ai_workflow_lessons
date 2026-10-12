@@ -1,7 +1,7 @@
 plugins {
     id("java")
-    id("org.springframework.boot") version "3.4.0"
-    id("io.spring.dependency-management") version "1.1.6"
+    id("org.springframework.boot") version "4.1.0"
+    id("io.spring.dependency-management") version "1.1.7"
 }
 
 group = "ru.otus"
@@ -18,7 +18,14 @@ repositories {
     mavenLocal()
 }
 
+val flutterWeb by configurations.creating {
+    isCanBeResolved = true
+    isCanBeConsumed = false
+}
+
+
 dependencies {
+    flutterWeb("ru.otus:survey_flutter_web:1.0.0")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("com.fasterxml.jackson.core:jackson-databind")
 
@@ -26,20 +33,11 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
 }
 
-val flutterWeb by configurations.creating {
-    isCanBeResolved = true
-    isCanBeConsumed = false
-}
 
-dependencies {
-    flutterWeb("ru.otus:survey_flutter_web:1.0.0")
-}
 
 val cleanStatic by tasks.registering(Delete::class) {
     group = "flutter"
     description = "Clean resources/static except .gitkeep"
-    
-    dependsOn(tasks.named("clean"))
     
     val staticDir = file("src/main/resources/static")
     
@@ -53,7 +51,6 @@ val cleanStatic by tasks.registering(Delete::class) {
 val extractFlutterWeb by tasks.registering(Copy::class) {
     group = "flutter"
     description = "Extract Flutter Web zip to resources/static"
-    
     dependsOn(cleanStatic)
     
     val zipFile = flutterWeb.resolve().firstOrNull()
@@ -73,9 +70,6 @@ val extractFlutterWeb by tasks.registering(Copy::class) {
     }
 }
 
-tasks.named("assemble") {
-    dependsOn(extractFlutterWeb)
-}
 
 tasks.withType<Test> {
     useJUnitPlatform()
