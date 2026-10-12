@@ -27,7 +27,7 @@ val flutterWeb by configurations.creating {
 dependencies {
     flutterWeb("ru.otus:survey_flutter_web:1.0.0")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")

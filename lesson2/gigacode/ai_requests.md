@@ -224,4 +224,44 @@
 
 ---
 
+## 19. Поправка сборки backend
+
+**Время исполнения:** ~1 сек
+
+**Запрос:** Поправить сборку backend
+
+**Результат:**
+- Обновлён Spring Boot до 4.1.0
+- Убрана зависимость `cleanStatic` от `clean`
+- Убрана зависимость `assemble` от `extractFlutterWeb`
+- Перемещён блок `dependencies` выше конфигурации `flutterWeb`
+- Убрана таска `tasks.named("assemble") { dependsOn(extractFlutterWeb) }`
+
+---
+
+## 20. Добавление логирования ответов
+
+**Время исполнения:** ~1 сек
+
+**Запрос:** Добавить вывод ответа на анкету в log.info, использовать logback+slf4j, конфигурация только в stdout
+
+**Результат:**
+- Добавлена зависимость `net.logstash.logback:logstash-logback-encoder:7.4`
+- Создан `logback-spring.xml` с `LogstashEncoder` и `ConsoleAppender`
+- В `AnswersController` добавлен `Logger` и `log.info()` при приёме ответа
+- Формат логов: JSON в stdout
+- Сборка: `./gradlew compileJava` — **успешно**
+
+---
+
+## 21. Обновление ai_requests.md
+
+**Время исполнения:** ~1 сек
+
+**Запрос:** Обновить файл ai_requests.md (проверка актуальности)
+
+**Результат:** Файл проверен — все записи актуальны.
+
+---
+
 *Файл ведётся автоматически в ходе работы с AI-ассистентом.*

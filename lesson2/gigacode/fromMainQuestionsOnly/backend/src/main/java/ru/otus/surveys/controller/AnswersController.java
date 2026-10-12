@@ -1,5 +1,7 @@
 package ru.otus.surveys.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.surveys.model.Answer;
@@ -16,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @CrossOrigin(origins = "*")
 public class AnswersController {
 
+    private static final Logger log = LoggerFactory.getLogger(AnswersController.class);
     private final QuestionService questionService;
     private final Map<String, Answer> answersStore = new ConcurrentHashMap<>();
 
@@ -46,6 +49,9 @@ public class AnswersController {
             String id = UUID.randomUUID().toString();
             answer.setId(id);
             answersStore.put(id, answer);
+
+            log.info("Survey answer received: id={}, timestamp={}, answers={}",
+                    id, LocalDateTime.now(), answer.getAnswers());
 
             return ResponseEntity.ok(Map.of(
                     "message", "Thank you!",
