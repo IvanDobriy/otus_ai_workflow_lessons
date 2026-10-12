@@ -28,3 +28,6 @@ Thumbs.db
 target/
 dist/
 build/
+
+# Backend static (Flutter build output)
+backend/src/main/resources/static/
