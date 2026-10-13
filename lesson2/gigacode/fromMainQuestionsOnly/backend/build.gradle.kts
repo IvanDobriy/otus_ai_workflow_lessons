@@ -57,15 +57,15 @@ val extractFlutterWeb by tasks.registering(Copy::class) {
         ?: throw GradleException("No flutterWeb artifact found. Run: cd survey_flutter && ./gradlew flutterBuildAndPublish")
     
     from(zipTree(zipFile))
-    into(layout.buildDirectory.dir("extracted-flutter-web"))
+    into(layout.projectDirectory.dir("src/main/resources/static"))
     
     doLast {
         val staticDir = file("src/main/resources/static")
-        staticDir.mkdirs()
-        copy {
-            from(layout.buildDirectory.dir("extracted-flutter-web"))
-            into(staticDir)
-        }
+//        staticDir.mkdirs()
+//        copy {
+//            from(layout.buildDirectory.dir("extracted-flutter-web"))
+//            into(staticDir)
+//        }
         println("✓ Flutter Web extracted to: ${staticDir.absolutePath}")
     }
 }

@@ -14,6 +14,21 @@ val flutterScript = file("$flutterHome/bin/flutter")
 val buildWebDir = layout.buildDirectory.dir("web")
 val zipArchive = layout.buildDirectory.file("archives/survey_flutter_web-${version}.zip")
 
+val flutterClean by tasks.registering(Exec::class) {
+    group = "flutter"
+    description = "Clean Flutter build artifacts"
+    commandLine = listOf("bash", "-c", "export PATH=$flutterHome/bin:\$PATH && flutter clean")
+    workingDir = projectDir
+}
+
+tasks.clean {
+    dependsOn(flutterClean)
+}
+
+tasks.assemble {
+    dependsOn(zipFlutterWeb)
+}
+
 val flutterBuild by tasks.registering(Exec::class) {
     group = "flutter"
     description = "Build Flutter Web application"

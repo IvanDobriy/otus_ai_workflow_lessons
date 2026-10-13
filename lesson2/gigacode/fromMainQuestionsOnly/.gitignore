@@ -28,6 +28,7 @@ Thumbs.db
 target/
 dist/
 build/
+.dart_tool/
 
 # Backend static (Flutter build output)
 backend/src/main/resources/static/

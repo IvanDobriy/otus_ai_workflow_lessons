@@ -189,7 +189,11 @@ class _SurveyPageState extends State<SurveyPage> {
               title: Text(opt),
               value: opt,
               groupValue: controllers[question.id]!.text,
-              onChanged: (v) => controllers[question.id]!.text = v ?? '',
+              onChanged: (v) {
+                setState(() {
+                  controllers[question.id]!.text = v ?? '';
+                });
+              },
             )),
           ],
         );
@@ -202,8 +206,12 @@ class _SurveyPageState extends State<SurveyPage> {
             ...(question.options ?? []).map((opt) => CheckboxListTile(
               title: Text(opt),
               value: controllers[question.id]!.text == opt,
-              onChanged: (v) => controllers[question.id]!.text =
-                  controllers[question.id]!.text == opt ? '' : opt,
+              onChanged: (v) {
+                setState(() {
+                  controllers[question.id]!.text =
+                      controllers[question.id]!.text == opt ? '' : opt;
+                });
+              },
             )),
           ],
         );
