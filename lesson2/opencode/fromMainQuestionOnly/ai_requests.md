@@ -90,7 +90,31 @@
 
 **Промпт (полный текст):**
 
-> обнгови @ai_requests.md
+> обнови @ai_requests.md
 
 **Результат:** дополнен раздел с тремя запросами «продолжай» и добавлен текущий
 раздел; журнал приведён в соответствие с фактической историей сессии.
+
+---
+
+## 5. Исправление очистки сборки Flutter через Gradle
+
+**Промпт (полный текст):**
+
+> при очистке через gradle plugin, не очищается содержимое сборки flutter проекта
+
+**Результат:** найдена и устранена причина. Плагин `base` в модуле `:frontend`
+удаляет только его `layout.buildDirectory` (`frontend/build`), тогда как
+`flutter build web` выполняется в каталоге `frontend/app` и складывает результаты
+в `frontend/app/build` и `frontend/app/.dart_tool` — Gradle о них не знал.
+
+Правки в `frontend/build.gradle.kts`:
+
+- добавлена задача `cleanFlutterApp` (`Delete`), удаляющая `app/build` и
+  `app/.dart_tool`, и подключена к `clean`;
+- к `flutterPubGet` добавлен выход `.dart_tool/package_config.json`, чтобы после
+  очистки `pub get` не считался `UP-TO-DATE` при отсутствующем `.dart_tool`.
+
+Проверено: `./gradlew clean` теперь удаляет `frontend/app/build`,
+`frontend/app/.dart_tool` и `frontend/build`, а последующий `flutterPubGet`
+выполняется заново.
