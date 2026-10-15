@@ -1,0 +1,137 @@
+openapi: 3.0.3
+info:
+  title: Mini Survey API
+  description: >-
+    Единый протокол обмена между backend (Spring WebFlux) и frontend (Flutter Web).
+    Служит источником истины: из него генерируются Java-модели/интерфейсы сервера
+    и Dart-клиент для фронтенда.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Локальный запуск
+paths:
+  /questions:
+    get:
+      operationId: getQuestions
+      tags:
+        - survey
+      summary: Получить список вопросов мини-анкеты
+      responses:
+        '200':
+          description: Список из 3-5 жёстко заданных вопросов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
+  /answers:
+    post:
+      operationId: submitAnswers
+      tags:
+        - survey
+      summary: Принять ответы респондента
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnswerSubmission'
+      responses:
+        '200':
+          description: Ответы приняты
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionResult'
+        '400':
+          description: Некорректный запрос
+components:
+  schemas:
+    QuestionType:
+      type: string
+      description: Тип вопроса анкеты
+      enum:
+        - TEXT
+        - SINGLE_CHOICE
+    QuestionOption:
+      type: object
+      description: Вариант ответа для вопроса с одиночным выбором
+      required:
+        - id
+        - label
+      properties:
+        id:
+          type: string
+          example: q2-opt-1
+        label:
+          type: string
+          example: Да
+    Question:
+      type: object
+      required:
+        - id
+        - text
+        - type
+      properties:
+        id:
+          type: string
+          example: q1
+        text:
+          type: string
+          example: Как вас зовут?
+        type:
+          $ref: '#/components/schemas/QuestionType'
+        options:
+          type: array
+          description: Заполняется только для типа SINGLE_CHOICE
+          items:
+            $ref: '#/components/schemas/QuestionOption'
+    Answer:
+      type: object
+      description: Ответ на один вопрос
+      required:
+        - questionId
+      properties:
+        questionId:
+          type: string
+          example: q1
+        textValue:
+          type: string
+          nullable: true
+          description: Значение для вопроса типа TEXT
+        selectedOptionId:
+          type: string
+          nullable: true
+          description: Идентификатор выбранного варианта для SINGLE_CHOICE
+    AnswerSubmission:
+      type: object
+      required:
+        - answers
+      properties:
+        respondent:
+          type: string
+          nullable: true
+          description: Необязательное имя/идентификатор респондента
+        answers:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Answer'
+    SubmissionResult:
+      type: object
+      required:
+        - accepted
+        - received
+        - message
+      properties:
+        accepted:
+          type: boolean
+          example: true
+        received:
+          type: integer
+          format: int32
+          example: 4
+        message:
+          type: string
+          example: 'Спасибо! Ваши ответы приняты.'

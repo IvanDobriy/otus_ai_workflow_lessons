@@ -1,0 +1,49 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Spring Boot static (generated frontend build)
+backend/src/main/resources/static/
+
+# IntelliJ IDEA / Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# VS Code
+.vscode/
+
+# NetBeans
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+/coverage/
+app.*.symbols
+app.*.map.json
+.widget_preview/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
