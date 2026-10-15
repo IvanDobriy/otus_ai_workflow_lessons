@@ -13,8 +13,8 @@
 | Инструмент | Версия |
 |---|---|
 | JDK | 25 |
-| Gradle | 9.6.1 |
-| Flutter | 3.47.2 (stable), поддержка web |
+| Gradle | 9.6.1 (обёртка `./gradlew` входит в репозиторий, отдельная установка не нужна) |
+| Flutter | 3.47.2 (stable), поддержка web — должен быть в `PATH` |
 
 ## Структура
 
@@ -32,13 +32,35 @@
 
 ## Сборка и запуск
 
-Все команды выполняются из корня проекта. Порядок важен, но Gradle выстраивает
+### Быстрый старт
+
+```bash
+# 1. Собрать всё (backend + frontend) и упаковать исполняемый jar
+./gradlew :backend:bootJar
+
+# 2. Запустить приложение
+java -jar backend/build/libs/backend-1.0.0.jar
+```
+
+Откройте `http://localhost:8080`.
+
+### Полная пересборка с нуля
+
+```bash
+./gradlew clean :backend:bootJar
+```
+
+`clean` удаляет артефакты Gradle (`build/`, `.gradle/`) и результаты сборки
+Flutter (`frontend/app/build`, `frontend/app/.dart_tool`), после чего `bootJar`
+пересобирает всё заново.
+
+Все команды выполняются из корня проекта. Порядок шагов важен, но Gradle выстраивает
 зависимости задач сам — достаточно одной команды полной сборки.
 
 ### 1. Полная сборка и упаковка backend (с встроенным веб-приложением)
 
 ```bash
-gradle :backend:bootJar
+./gradlew :backend:bootJar
 ```
 
 Эта команда последовательно:
@@ -63,10 +85,10 @@ java -jar backend/build/libs/backend-1.0.0.jar
 ### 3. Отдельные задачи (при необходимости)
 
 ```bash
-gradle :frontend:publishToMavenLocal   # собрать и опубликовать только фронтенд
-gradle :backend:unpackFlutterWeb       # скачать и распаковать веб-артефакт в static
-gradle :backend:deleteFlutterWeb       # удалить распакованный веб-артефакт из static
-gradle :backend:bootRun                # запустить backend напрямую из Gradle
+./gradlew :frontend:publishToMavenLocal   # собрать и опубликовать только фронтенд
+./gradlew :backend:unpackFlutterWeb       # скачать и распаковать веб-артефакт в static
+./gradlew :backend:deleteFlutterWeb       # удалить распакованный веб-артефакт из static
+./gradlew :backend:bootRun                # запустить backend напрямую из Gradle
 ```
 
 ## Проверка API вручную
