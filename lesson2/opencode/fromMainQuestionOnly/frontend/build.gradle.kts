@@ -78,6 +78,15 @@ val generateSurveyApi by tasks.registering(org.openapitools.generator.gradle.plu
     }
 }
 
+val cleanFlutterApp by tasks.registering(Delete::class) {
+    description = "Удаляет артефакты сборки Flutter-приложения (app/build, app/.dart_tool)"
+    delete(appDir.dir("build"), appDir.dir(".dart_tool"))
+}
+
+tasks.named("clean") {
+    dependsOn(cleanFlutterApp)
+}
+
 val flutterPubGet by tasks.registering(Exec::class) {
     group = "mini-survey"
     description = "Скачивает зависимости Flutter-приложения"
@@ -86,6 +95,7 @@ val flutterPubGet by tasks.registering(Exec::class) {
     commandLine("flutter", "pub", "get")
     inputs.file(appDir.file("pubspec.yaml"))
     outputs.file(appDir.file("pubspec.lock"))
+    outputs.file(appDir.file(".dart_tool/package_config.json"))
 }
 
 val flutterBuildWeb by tasks.registering(Exec::class) {
