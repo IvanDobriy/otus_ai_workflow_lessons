@@ -118,3 +118,49 @@
 Проверено: `./gradlew clean` теперь удаляет `frontend/app/build`,
 `frontend/app/.dart_tool` и `frontend/build`, а последующий `flutterPubGet`
 выполняется заново.
+
+---
+
+## 6. Добавление корневого `.gitignore`
+
+**Промпт (полный текст):**
+
+> добавь .gitignore и укажи там все папки сборки и idee, которые не должны быть в проекте
+
+**Результат:** создан корневой `.gitignore`. В него добавлены:
+
+- Gradle: `.gradle/`, `build/` (с исключением `gradle-wrapper.jar`);
+- IntelliJ IDEA / Android Studio: `.idea/`, `*.iml`, `*.ipr`, `*.iws`, `out/`;
+- Eclipse: `.classpath`, `.project`, `.settings/`, `bin/`;
+- VS Code: `.vscode/`;
+- NetBeans: `nbproject/private/`, `nbbuild/`, `nbdist/`, `.nb-gradle/`;
+- Flutter / Dart: `.dart_tool/`, `.flutter-plugins`, `.flutter-plugins-dependencies`,
+  `.pub-cache/`, `.pub/`, `**/doc/api/`, `**/ios/Flutter/.last_build_id`,
+  `/coverage/`, `app.*.symbols`, `app.*.map.json`, `.widget_preview/`;
+- OS и логи: `.DS_Store`, `Thumbs.db`, `*.log`.
+
+Отмечено, что `.gradle/` уже отслеживается git — для удаления из индекса нужен
+`git rm -r --cached .gradle .idea build`.
+
+---
+
+## 7. Игнорирование `backend/src/main/resources/static`
+
+**Промпт (полный текст):**
+
+> добавь resources/static в backend в .gitignore
+
+**Результат:** в корневой `.gitignore` добавлена секция «Spring Boot static
+(generated frontend build)» с паттерном `backend/src/main/resources/static/` —
+каталог заполняется распакованным веб-артефактом Flutter и не должен попадать в git.
+
+---
+
+## 8. Обновление журнала запросов
+
+**Промпт (полный текст):**
+
+> обнови @ai_requests.md
+
+**Результат:** добавлены разделы 6 и 7 (создание `.gitignore` и игнорирование
+`resources/static`); журнал приведён в соответствие с фактической историей сессии.
