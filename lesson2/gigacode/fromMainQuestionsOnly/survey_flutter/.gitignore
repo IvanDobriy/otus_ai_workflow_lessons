@@ -1,0 +1,47 @@
+# Flutter build artifacts
+build/
+.dart_tool/
+.packages
+
+# Web build output
+web/build/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS
+.DS_Store
+*.swp
+*~
+
+# Environment
+.env
+.env.*
+
+# Coverage
+coverage/
+
+# Android
+android/.gradle/
+android/build/
+android/*.apk
+android/*.aab
+android/*.apks
+
+# iOS
+iOS/Build/
+iOS/.xcuserdata
+
+# Windows
+windows/runner/Debug/
+windows/runner/Release/
+
+# Linux
+linux/.cmake/
+
+# Documentation
+doc/
