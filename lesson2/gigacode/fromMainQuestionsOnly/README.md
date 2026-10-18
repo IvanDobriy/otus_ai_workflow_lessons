@@ -86,6 +86,74 @@ fromMainQuestionsOnly/
 }
 ```
 
+## Запуск в Docker
+
+Для этого способа локально нужны только Docker и Docker Compose; Java, Gradle и Flutter SDK устанавливать не требуется. Выполните из корня проекта:
+
+```bash
+docker compose up --build
+```
+
+Команда собирает Flutter Web и backend, после чего запускает приложение на http://localhost:8080. Для остановки нажмите `Ctrl+C`, а для удаления контейнера выполните:
+
+```bash
+docker compose down
+```
+
+## Очистка и сборка
+
+Команды в этом разделе выполняются из корня проекта. Для сборки Flutter Web необходим Flutter SDK. Если команда `flutter` недоступна в `PATH`, задайте переменную окружения:
+
+```bash
+export FLUTTER_HOME=/path/to/flutter
+```
+
+Вместо переменной окружения можно передать Gradle-параметр `-Pflutter.home=/path/to/flutter`.
+
+### Очистка
+
+```bash
+# Flutter: build/, .dart_tool/ и другие артефакты flutter clean
+(cd survey_flutter && ./gradlew clean)
+
+# Backend: backend/build/; каталог resources/static сохраняется
+(cd backend && ./gradlew clean)
+
+# Сгенерированная Flutter-статика backend, кроме .gitkeep
+(cd backend && ./gradlew cleanStatic)
+```
+
+### Сборка отдельных модулей
+
+```bash
+# Flutter Web и ZIP-архив со статикой
+(cd survey_flutter && ./gradlew clean assemble)
+
+# Backend с уже имеющейся в resources/static статикой
+(cd backend && ./gradlew clean build)
+```
+
+Результаты сборки:
+
+- Flutter Web: `survey_flutter/build/web/`;
+- ZIP со статикой: `survey_flutter/build/archives/survey_flutter_web-1.0.0.zip`;
+- JAR-файлы backend: `backend/build/libs/`.
+
+### Полная сборка приложения
+
+```bash
+# Собрать Flutter Web, создать ZIP и опубликовать его в Maven Local
+(cd survey_flutter && ./gradlew clean flutterBuildAndPublish)
+
+# Очистить старую статику и распаковать свежий артефакт в backend
+(cd backend && ./gradlew extractFlutterWeb)
+
+# Собрать backend и выполнить тесты
+(cd backend && ./gradlew clean build)
+```
+
+Публикация размещает артефакт `ru.otus:survey_flutter_web:1.0.0` в `~/.m2/repository`. Задача `extractFlutterWeb` распаковывает его в `backend/src/main/resources/static`, после чего статика включается в сборку backend.
+
 ## Запуск
 
 ### Требования
