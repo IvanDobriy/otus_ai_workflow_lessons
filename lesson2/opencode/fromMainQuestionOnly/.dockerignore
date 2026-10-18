@@ -1,0 +1,12 @@
+.git/
+.gradle/
+.idea/
+.vscode/
+**/build/
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+backend/src/main/resources/static/
+frontend/app/generated_api/
+*.iml
+*.log
